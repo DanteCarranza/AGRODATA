@@ -1,0 +1,70 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/hanken-grotesk';
+@import '@fontsource-variable/bricolage-grotesque';
+
+/* Tokens base. --crop y --crop-soft cambian según el cultivo activo (data-crop en <html>) */
+@theme {
+  --font-sans: 'Hanken Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Bricolage Grotesque Variable', 'Hanken Grotesk Variable', sans-serif;
+
+  --color-ink: #13261f;
+  --color-muted: #5e6f67;
+  --color-faint: #93a39b;
+  --color-surface: #f4f6f3;
+  --color-paper: #ffffff;
+  --color-line: #dde4de;
+  --color-forest: #0e2219;
+  --color-forest-2: #17332a;
+  --color-mint: #8fd3a8;
+  --color-ok: #1f7a4d;
+  --color-warn: #a86108;
+  --color-bad: #a23b2a;
+
+  --color-crop: var(--crop);
+  --color-crop-soft: var(--crop-soft);
+  --color-crop-ink: var(--crop-ink);
+}
+
+:root {
+  --crop: #6d3a8c;
+  --crop-soft: #f1e9f6;
+  --crop-ink: #3f1f53;
+}
+:root[data-crop='uva'] { --crop: #6d3a8c; --crop-soft: #f1e9f6; --crop-ink: #3f1f53; }
+:root[data-crop='palta'] { --crop: #3b6b2e; --crop-soft: #e7f0e1; --crop-ink: #213f19; }
+:root[data-crop='arandano'] { --crop: #34499c; --crop-soft: #e6eaf7; --crop-ink: #1d2b63; }
+:root[data-crop='mango'] { --crop: #b5600a; --crop-soft: #fcefdc; --crop-ink: #6b3804; }
+:root[data-crop='limon'] { --crop: #6c8a0e; --crop-soft: #eff4dc; --crop-ink: #3d5006; }
+
+html, body, #root { height: 100%; }
+body {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+.num { font-variant-numeric: tabular-nums; }
+
+/* La transición de color al cambiar de cultivo es el único movimiento ambiental */
+.crop-tint { transition: background-color .35s ease, color .35s ease, border-color .35s ease, fill .35s ease; }
+
+:focus-visible { outline: 2px solid var(--crop); outline-offset: 2px; border-radius: 6px; }
+
+/* Panel lateral (ficha): entra desde la derecha cuando la persona lo abre */
+@keyframes drawer-in { from { transform: translateX(24px); opacity: 0; } to { transform: none; opacity: 1; } }
+.drawer-in { animation: drawer-in .2s ease-out; }
+
+.scroll-thin { scrollbar-width: thin; scrollbar-color: var(--color-line) transparent; }
+
+/* Impresión (Informe visual): hoja A4 con los colores tal cual, sin menú ni barra superior */
+@media print {
+  @page { size: A4; margin: 10mm; }
+  html, body { background: #fff !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
