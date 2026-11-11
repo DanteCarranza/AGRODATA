@@ -2,6 +2,7 @@
 node_modules
 dist
 dist-ssr
+*.zip
 
 # Variables de entorno (claves): nunca al repositorio
 .env
